@@ -1,1 +1,87 @@
+body {
+    font-family: Andale Mono, monospace;
+    margin: 0;
+    padding: 0;
+    background-color: #343a40; /* Dark background color */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+#logo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+h1 {
+    margin: 0;
+    color: #f5f5ae;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.file-button {
+    padding: 15px 20px;
+    font-size: 18px;
+    border: outset;
+    background-color: #6c757d;
+    color: #ffffff;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    margin: 10px;
+}
+
+.file-button:hover {
+    background-color: #495057;
+}
+
+.file-button:active {
+    background-color: #343a40;
+}
+
+#clear-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #6e70fa; /* Blue */
+    border: outset;
+    color: #ffffff;
+    cursor: pointer;
+    outline: none;
+    border-radius: 5px;
+}
+
+#clear-button:hover {
+    background-color: #373afa; /* Clear blue on hover */
+}
+
+.sql-link {
+    display: block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.sql-link:hover {
+    color: #ced4da;
+}
+
+.processing {
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
 
