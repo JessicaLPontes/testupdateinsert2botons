@@ -1,10 +1,8 @@
-/* Geral */
 body {
     font-family: Andale Mono, monospace;
     margin: 0;
     padding: 0;
-    background-color: #343a40;
-    color: #ffffff;
+    background-color: #343a40; /* Dark background color */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -12,118 +10,77 @@ body {
     min-height: 100vh;
 }
 
-.container {
-    width: 90%;
-    max-width: 800px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Logo */
 #logo {
     width: 150px;
     height: auto;
     margin-bottom: 20px;
 }
 
-/* Título */
 h1 {
-    text-align: center;
+    margin: 0;
     color: #f5f5ae;
-    margin-bottom: 30px;
-}
-
-/* Cards */
-.card {
-    background-color: #495057;
-    border: 1px solid #6c757d;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    width: 100%;
     text-align: center;
+    margin-bottom: 20px;
 }
 
-.card h2 {
-    color: #ffffff;
-    margin-bottom: 15px;
-}
-
-.card p {
-    color: #ced4da;
-    font-size: 14px;
-}
-
-/* Botões */
-.btn-with-icon {
-    display: inline-block;
-    padding: 10px 20px;
+.file-button {
+    padding: 15px 20px;
+    font-size: 18px;
+    border: outset;
     background-color: #6c757d;
     color: #ffffff;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
-    text-align: center;
-    font-size: 16px;
-    margin-top: 10px;
+    outline: none;
     transition: background-color 0.3s ease;
+    text-align: center;
+    margin: 10px;
 }
 
-.btn-with-icon i {
-    margin-right: 10px;
-}
-
-.btn-with-icon:hover {
+.file-button:hover {
     background-color: #495057;
 }
 
-/* Botão Limpar */
+.file-button:active {
+    background-color: #343a40;
+}
+
 #clear-button {
-    padding: 10px 20px;
-    background-color: #dc3545;
-    border: none;
-    color: #ffffff;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
     margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #6e70fa; /* Blue */
+    border: outset;
+    color: #ffffff;
+    cursor: pointer;
+    outline: none;
+    border-radius: 5px;
 }
 
 #clear-button:hover {
-    background-color: #bd2130;
+    background-color: #373afa; /* Clear blue on hover */
 }
 
-/* Links de SQL */
 .sql-link {
     display: block;
     margin-top: 10px;
     text-decoration: none;
-    color: #007bff;
+    color: #ffffff;
     font-weight: bold;
 }
 
 .sql-link:hover {
-    color: #0056b3;
+    color: #ced4da;
 }
 
-/* Mensagem de processamento */
 .processing {
     animation: pulse 1s infinite alternate;
 }
 
 @keyframes pulse {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0.5;
-    }
+    0% { opacity: 1; }
+    100% { opacity: 0.5; }
 }
 
-/* Mensagem de erro */
 .error {
     color: red;
     font-weight: bold;
-    margin-top: 10px;
 }
