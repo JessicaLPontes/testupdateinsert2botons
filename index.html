@@ -1,1 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel para SQL {Insert & Update}</title>
+    <link rel="icon" href="https://github.com/JessicaLPontes/Convert/blob/main/logo.png?raw=true" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Logo e título -->
+    <img id="logo" src="https://github.com/JessicaLPontes/Convert/blob/main/logo.png?raw=true" alt="Logo">
+    <h1>Excel para SQL {Insert & Update}</h1>
+
+    <!-- Botões separados para INSERT e UPDATE -->
+    <input id="insert-input" type="file" style="display:none;" onchange="handleInsertFiles(event)" multiple accept=".xlsx, .xls">
+    <button class="file-button" onclick="document.getElementById('insert-input').click()">Carregar para INSERT</button>
+
+    <input id="update-input" type="file" style="display:none;" onchange="handleUpdateFiles(event)" multiple accept=".xlsx, .xls">
+    <button class="file-button" onclick="document.getElementById('update-input').click()">Carregar para UPDATE</button>
+
+    <!-- Botão de limpar -->
+    <button id="clear-button" onclick="clearFiles()">Limpar Dados</button>
+
+    <!-- Links para os arquivos SQL gerados -->
+    <div id="sql-links"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.4/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
 
