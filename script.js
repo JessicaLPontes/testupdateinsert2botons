@@ -41,26 +41,26 @@ function processFiles(event, mode) {
                         if (mode === 'INSERT') {
                             // Gera comando INSERT
                             const values = columns.map(column => {
-                                const value = row[column];
-                                return value === undefined || value === '' ? 'NULL' : `'${value.toString().replace(/'/g, "''")}'`;
+                                const value = row[column]?.toString().trim(); // Remove espaços extras
+                                return value === undefined || value === '' ? 'NULL' : `'${value.replace(/'/g, "''")}'`;
                             }).join(', ');
 
                             return `INSERT INTO ${tableName} (${columns.join(', ')}) VALUES (${values});`;
                         } else if (mode === 'UPDATE') {
                             // Gera comando UPDATE
                             const setClauses = columns.map(column => {
-                                const value = row[column];
-                                const cleanedValue = value === undefined || value === '' ? 'NULL' : `'${value.toString().replace(/'/g, "''")}'`;
+                                const value = row[column]?.toString().trim(); // Remove espaços extras
+                                const cleanedValue = value === undefined || value === '' ? 'NULL' : `'${value.replace(/'/g, "''")}'`;
                                 return `${column} = ${cleanedValue}`;
                             }).join(', ');
 
                             // Identifica uma coluna-chave para a cláusula WHERE (ajuste conforme necessário)
                             const keyColumn = columns[0]; // Aqui usamos a primeira coluna como chave
-                            const keyValue = row[keyColumn];
+                            const keyValue = row[keyColumn]?.toString().trim(); // Remove espaços extras
                             if (keyValue === undefined || keyValue === '') {
                                 throw new Error(`A coluna-chave "${keyColumn}" está vazia para algum registro.`);
                             }
-                            const whereClause = `${keyColumn} = '${keyValue.toString().replace(/'/g, "''")}'`;
+                            const whereClause = `${keyColumn} = '${keyValue.replace(/'/g, "''")}'`;
 
                             return `UPDATE ${tableName} SET ${setClauses} WHERE ${whereClause};`;
                         }
