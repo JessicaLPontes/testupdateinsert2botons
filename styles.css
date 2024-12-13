@@ -1,88 +1,111 @@
-/* Layout base */
+/* Estilo Geral */
 body {
-    font-family: Arial, sans-serif;
+    font-family: Andale Mono, monospace;
     margin: 0;
     padding: 0;
-    background-color: #ffffff; /* Fundo branco */
-    color: #343a40; /* Texto escuro */
+    background-color: #ffffff; /* Cor de fundo padrão (modo claro) */
+    color: #343a40; /* Texto escuro no modo claro */
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     min-height: 100vh;
+    transition: background-color 0.3s, color 0.3s; /* Transição suave entre temas */
 }
 
-/* Cabeçalho */
-header {
-    text-align: center;
-    margin-bottom: 20px;
+body.dark-mode {
+    background-color: #343a40; /* Cor de fundo do modo escuro */
+    color: #ffffff; /* Texto claro no modo escuro */
 }
 
 #logo {
     width: 150px;
     height: auto;
-    margin: 20px auto;
+    margin-bottom: 20px;
 }
 
 h1 {
     margin: 0;
-    color: #343a40;
+    color: inherit; /* Herdar cor do tema */
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-/* Botões */
-.file-button,
-#clear-button {
+.file-button {
     padding: 15px 20px;
     font-size: 18px;
-    border: 2px solid #6c757d;
+    border: outset;
     background-color: #6c757d;
     color: #ffffff;
     cursor: pointer;
-    transition: all 0.3s ease;
+    outline: none;
+    transition: background-color 0.3s ease;
     text-align: center;
     margin: 10px;
-    border-radius: 5px;
 }
 
-.file-button:hover,
-#clear-button:hover {
+.file-button:hover {
     background-color: #495057;
-    border-color: #495057;
 }
 
-.file-button:active,
-#clear-button:active {
+.file-button:active {
     background-color: #343a40;
 }
 
-/* Links SQL */
+#clear-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #6e70fa; /* Azul */
+    border: outset;
+    color: #ffffff;
+    cursor: pointer;
+    outline: none;
+    border-radius: 5px;
+}
+
+#clear-button:hover {
+    background-color: #373afa; /* Azul claro no hover */
+}
+
 .sql-link {
     display: block;
     margin-top: 10px;
     text-decoration: none;
-    color: #007bff;
+    color: inherit; /* Herdar cor do tema */
     font-weight: bold;
 }
 
 .sql-link:hover {
-    text-decoration: underline;
+    color: #ced4da;
 }
 
-/* Rodapé */
-footer {
-    background-color: #f8f9fa;
-    color: #343a40;
-    text-align: center;
-    padding: 15px 0;
-    margin-top: auto;
-    width: 100%;
-    border-top: 1px solid #ddd;
+.processing {
+    animation: pulse 1s infinite alternate;
 }
 
-footer a {
-    color: #007bff;
-    text-decoration: none;
+@keyframes pulse {
+    0% { opacity: 1; }
+    100% { opacity: 0.5; }
 }
 
-footer a:hover {
-    text-decoration: underline;
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+/* Botão de alternância do tema */
+#theme-toggle {
+    margin-top: 20px;
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#theme-toggle:hover {
+    background-color: #0056b3;
 }
