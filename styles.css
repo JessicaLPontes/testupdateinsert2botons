@@ -3,20 +3,20 @@ body {
     font-family: Andale Mono, monospace;
     margin: 0;
     padding: 0;
-    background-color: #ffffff; /* Fundo padrão no modo claro */
-    color: #333333; /* Cor do texto no modo claro */
+    background-color: #ffffff;
+    color: #333333;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 100vh;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Modo escuro */
 body.dark-mode {
-    background-color: #1e1e1e; /* Fundo escuro */
-    color: #e4e4e4; /* Texto claro no modo escuro */
+    background-color: #1e1e1e;
+    color: #e4e4e4;
 }
 
 /* Botão alternar tema */
@@ -29,17 +29,27 @@ body.dark-mode {
     background-color: transparent;
     border: none;
     cursor: pointer;
-    color: #333333; /* Ícone no modo claro */
+    color: #333333;
     transition: color 0.3s ease;
 }
 
 /* Botão alternar tema no modo escuro */
 body.dark-mode #theme-toggle {
-    color: #e4e4e4; /* Ícone no modo escuro */
+    color: #e4e4e4;
 }
 
 #theme-toggle:hover {
-    transform: scale(1.1); /* Efeito de hover */
+    transform: scale(1.1);
+}
+
+/* Layout principal */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
 }
 
 /* Logo */
@@ -52,7 +62,7 @@ body.dark-mode #theme-toggle {
 /* Título */
 h1 {
     margin: 0;
-    color: #0056b3; /* Cor do título no modo claro */
+    color: #0056b3;
     text-align: center;
     margin-bottom: 20px;
     transition: color 0.3s ease;
@@ -60,7 +70,7 @@ h1 {
 
 /* Título no modo escuro */
 body.dark-mode h1 {
-    color: #58a6ff; /* Cor do título no modo escuro */
+    color: #58a6ff;
 }
 
 /* Botões */
@@ -85,9 +95,9 @@ body.dark-mode h1 {
     background-color: #343a40;
 }
 
-/* Botão de limpar específico */
+/* Botão limpar */
 #clear-button {
-    background-color: #6e70fa; /* Azul no modo claro */
+    background-color: #6e70fa;
     border-radius: 5px;
 }
 
@@ -96,6 +106,23 @@ body.dark-mode h1 {
 }
 
 /* Links para SQL */
+.sql-links-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.sql-links {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    overflow-y: auto;
+    max-height: 500px;
+}
+
 .sql-link {
     display: block;
     margin-top: 10px;
@@ -103,6 +130,7 @@ body.dark-mode h1 {
     color: #0056b3;
     font-weight: bold;
     transition: color 0.3s ease;
+    word-wrap: break-word;
 }
 
 .sql-link:hover {
@@ -121,19 +149,18 @@ body.dark-mode .sql-link:hover {
 /* Rodapé */
 .footer {
     text-align: center;
-    padding: 15px;
-    margin-top: 20px;
+    padding: 10px;
     font-size: 14px;
     color: #6a737d;
-    background-color: #f6f8fa; /* Fundo do rodapé no modo claro */
+    background-color: #f6f8fa;
     border-top: 1px solid #e1e4e8;
-    width: 100%; /* Ocupa toda a largura da página */
+    width: 100%;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Rodapé no modo escuro */
 body.dark-mode .footer {
-    background-color: #161b22; /* Fundo do rodapé no modo escuro */
+    background-color: #161b22;
     color: #c9d1d9;
     border-top: 1px solid #30363d;
 }
