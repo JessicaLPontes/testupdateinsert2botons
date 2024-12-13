@@ -2,12 +2,14 @@ body {
     font-family: Andale Mono, monospace;
     margin: 0;
     padding: 0;
-    background-color: #343a40; /* Dark background color */
+    background: url('background-image.png') no-repeat center center fixed; /* Substitua pelo caminho da sua imagem */
+    background-size: cover;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+    color: #ffffff; /* Texto branco para contraste */
 }
 
 #logo {
