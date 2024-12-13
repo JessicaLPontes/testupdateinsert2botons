@@ -8,7 +8,15 @@ function handleUpdateFiles(event) {
 
 function processFiles(event, mode) {
     const files = event.target.files;
-    const sqlLinksContainer = document.getElementById('sql-links');
+
+    if (!files || files.length === 0) {
+        alert('Por favor, selecione pelo menos um arquivo.');
+        return;
+    }
+
+    const sqlLinksContainer = document.getElementById(
+        mode === 'INSERT' ? 'insert-sql-links' : 'update-sql-links'
+    );
     sqlLinksContainer.innerHTML = '';
 
     const processingMsg = document.createElement('p');
@@ -36,27 +44,23 @@ function processFiles(event, mode) {
 
                     const columns = Object.keys(jsonData[0]);
 
-                    // Gera os comandos SQL com base no modo (INSERT ou UPDATE)
                     const sqlCommands = jsonData.map(row => {
                         if (mode === 'INSERT') {
-                            // Gera comando INSERT
                             const values = columns.map(column => {
-                                const value = row[column]?.toString().trim(); // Remove espaços extras
+                                const value = row[column]?.toString().trim();
                                 return value === undefined || value === '' ? 'NULL' : `'${value.replace(/'/g, "''")}'`;
                             }).join(', ');
 
                             return `INSERT INTO ${tableName} (${columns.join(', ')}) VALUES (${values});`;
                         } else if (mode === 'UPDATE') {
-                            // Gera comando UPDATE
                             const setClauses = columns.map(column => {
-                                const value = row[column]?.toString().trim(); // Remove espaços extras
+                                const value = row[column]?.toString().trim();
                                 const cleanedValue = value === undefined || value === '' ? 'NULL' : `'${value.replace(/'/g, "''")}'`;
                                 return `${column} = ${cleanedValue}`;
                             }).join(', ');
 
-                            // Identifica uma coluna-chave para a cláusula WHERE (ajuste conforme necessário)
-                            const keyColumn = columns[0]; // Aqui usamos a primeira coluna como chave
-                            const keyValue = row[keyColumn]?.toString().trim(); // Remove espaços extras
+                            const keyColumn = columns[0];
+                            const keyValue = row[keyColumn]?.toString().trim();
                             if (keyValue === undefined || keyValue === '') {
                                 throw new Error(`A coluna-chave "${keyColumn}" está vazia para algum registro.`);
                             }
@@ -66,7 +70,6 @@ function processFiles(event, mode) {
                         }
                     }).join('\n');
 
-                    // Cria link para download do SQL
                     const blob = new Blob([sqlCommands], { type: 'text/plain' });
                     const link = document.createElement('a');
                     link.href = URL.createObjectURL(blob);
@@ -76,11 +79,9 @@ function processFiles(event, mode) {
                     sqlLinksContainer.appendChild(link);
                 });
 
-                // Remove mensagem de processamento
                 sqlLinksContainer.removeChild(processingMsg);
             } catch (error) {
                 console.error(`Erro ao processar arquivo para ${mode}:`, error);
-                // Exibe mensagem de erro
                 sqlLinksContainer.removeChild(processingMsg);
                 const errorMsg = document.createElement('p');
                 errorMsg.innerText = `Erro ao processar arquivo para ${mode}: ${file.name}`;
@@ -96,11 +97,19 @@ function processFiles(event, mode) {
 function clearFiles() {
     document.getElementById('insert-input').value = '';
     document.getElementById('update-input').value = '';
-    document.getElementById('sql-links').innerHTML = '';
+    document.getElementById('insert-sql-links').innerHTML = '';
+    document.getElementById('update-sql-links').innerHTML = '';
 }
 
-// Função para alternar entre modo claro e escuro
 function toggleTheme() {
     const body = document.body;
     body.classList.toggle("dark-mode");
+    const icon = document.querySelector('#theme-toggle i');
+    if (body.classList.contains('dark-mode')) {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+    } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+    }
 }
