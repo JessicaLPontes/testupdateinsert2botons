@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Excel para SQL {Insert & Update}</title>
-    <link rel="icon" href="https://github.com/JessicaLPontes/Convert/blob/main/logo.png?raw=true" type="image/png">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- FontAwesome -->
 </head>
@@ -28,19 +27,31 @@
         <button id="clear-button" onclick="clearFiles()">Limpar Dados</button>
 
         <!-- Links para SQL -->
-        <div id="insert-sql-links"></div>
-     
+        <div class="sql-links-container">
+            <div id="insert-sql-links" class="sql-links"></div>
+            <div id="update-sql-links" class="sql-links"></div>
+        </div>
+    </div>
+
     <!-- Rodapé -->
     <footer class="footer">
         <p>Desenvolvido por <a href="https://github.com/JessicaLPontes" target="_blank">Jessica Pontes</a></p>
-       <p>
-           <a href="https://github.com/JessicaLPontes" target="_blank">Repositórios GitHub</a> | 
-           <a href="https://www.linkedin.com/in/jessica-lizandra-1b89ab313/" target="_blank">LinkedIn</a>
-       </p>
     </footer>
 
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.4/xlsx.full.min.js"></script>
-    <script src="script.js"></script>
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            const icon = document.querySelector('#theme-toggle i');
+            if (body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+    </script>
 </body>
 </html>
