@@ -9,29 +9,14 @@
 </head>
 <body>
 
-    <!-- Cabeçalho -->
-    <div class="header">
-        <img id="logo" src="https://github.com/JessicaLPontes/Convert/blob/main/logo.png?raw=true" alt="Logo">
-        <h1>Excel para SQL {Insert & Update}</h1>
-    </div>
+    <!-- Logo e título -->
+    <img id="logo" src="https://github.com/JessicaLPontes/Convert/blob/main/logo.png?raw=true" alt="Logo">
+    <h1>Excel para SQL {Insert & Update}</h1>
 
-    <!-- Botões para Insert e Update -->
-    <div class="button-container">
-        <button class="insert-button">
-            <i class="fas fa-plus"></i> INSERT
-            <span>Adiciona um novo item</span>
-        </button>
-        <button class="update-button">
-            <i class="fas fa-edit"></i> UPDATE
-            <span>Atualiza um item existente</span>
-        </button>
-    </div>
-
-    <!-- Arquivos de Insert -->
+    <!-- Botões separados para INSERT e UPDATE -->
     <input id="insert-input" type="file" style="display:none;" onchange="handleInsertFiles(event)" multiple accept=".xlsx, .xls">
     <button class="file-button" onclick="document.getElementById('insert-input').click()">Carregar para INSERT</button>
 
-    <!-- Arquivos de Update -->
     <input id="update-input" type="file" style="display:none;" onchange="handleUpdateFiles(event)" multiple accept=".xlsx, .xls">
     <button class="file-button" onclick="document.getElementById('update-input').click()">Carregar para UPDATE</button>
 
@@ -42,7 +27,6 @@
     <div id="sql-links"></div>
 
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.4/xlsx.full.min.js"></script>
     <script src="script.js"></script>
 </body>
