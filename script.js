@@ -98,3 +98,8 @@ function clearFiles() {
     document.getElementById('update-input').value = '';
     document.getElementById('sql-links').innerHTML = '';
 }
+
+// Função para alternar entre modo claro e escuro
+function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+}
