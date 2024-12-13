@@ -101,5 +101,6 @@ function clearFiles() {
 
 // Função para alternar entre modo claro e escuro
 function toggleTheme() {
-    document.body.classList.toggle('dark-mode');
+    const body = document.body;
+    body.classList.toggle("dark-mode");
 }
