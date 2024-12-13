@@ -2,7 +2,6 @@ body {
     font-family: Andale Mono, monospace;
     margin: 0;
     padding: 0;
-    background-color: #343a40; /* Dark background color */
     display: flex;
     flex-direction: column;
     align-items: center;
