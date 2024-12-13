@@ -3,50 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel para {SQL}</title>
+    <title>Excel para SQL {Insert & Update}</title>
     <link rel="icon" href="https://github.com/JessicaLPontes/Convert/blob/main/logo.png?raw=true" type="image/png">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <!-- Cabeçalho com logo e título -->
-    <header>
+    <!-- Container principal -->
+    <div class="container">
+        <!-- Logo -->
         <img id="logo" src="https://github.com/JessicaLPontes/Convert/blob/main/logo.png?raw=true" alt="Logo">
-        <h1>Excel para {SQL}</h1>
-    </header>
 
-    <!-- Botão para alternar entre modo claro e escuro -->
-    <button id="theme-toggle" onclick="toggleTheme()">Alternar Modo Claro/Escuro</button>
+        <!-- Título -->
+        <h1>Excel para SQL {Insert & Update}</h1>
 
-    <!-- Seção principal com botões -->
-    <main>
-        <input id="insert-input" type="file" style="display:none;" onchange="handleInsertFiles(event)" multiple accept=".xlsx, .xls">
-        <button class="file-button" onclick="document.getElementById('insert-input').click()">Carregar para INSERT</button>
+        <!-- Botões para upload -->
+        <div class="buttons">
+            <input id="insert-input" type="file" style="display:none;" onchange="handleInsertFiles(event)" multiple accept=".xlsx, .xls">
+            <button class="file-button" onclick="document.getElementById('insert-input').click()">Carregar para INSERT</button>
 
-        <input id="update-input" type="file" style="display:none;" onchange="handleUpdateFiles(event)" multiple accept=".xlsx, .xls">
-        <button class="file-button" onclick="document.getElementById('update-input').click()">Carregar para UPDATE</button>
+            <input id="update-input" type="file" style="display:none;" onchange="handleUpdateFiles(event)" multiple accept=".xlsx, .xls">
+            <button class="file-button" onclick="document.getElementById('update-input').click()">Carregar para UPDATE</button>
+        </div>
 
-        <!-- Botão para limpar dados -->
+        <!-- Botão de limpar -->
         <button id="clear-button" onclick="clearFiles()">Limpar Dados</button>
 
-        <!-- Área de links -->
+        <!-- Botão de alternância de tema -->
+        <button id="theme-toggle" onclick="toggleTheme()">Alternar Modo Claro/Escuro</button>
+
+        <!-- Links para arquivos SQL gerados -->
         <div id="sql-links"></div>
-    </main>
+    </div>
 
     <!-- Rodapé -->
-    <footer>
+    <footer class="footer">
         <p>Desenvolvido por <a href="https://github.com/JessicaLPontes" target="_blank">Jessica Pontes</a></p>
-        <p><a href="https://github.com/JessicaLPontes" target="_blank">Projetos Github</a></p>
+        <p>
+            <a href="https://github.com/JessicaLPontes/Convert" target="_blank">Repositório</a> | 
+            <a href="https://www.linkedin.com/in/jessica-lpontes" target="_blank">LinkedIn</a>
+        </p>
     </footer>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.4/xlsx.full.min.js"></script>
     <script src="script.js"></script>
-    <script>
-        // Alternar tema claro/escuro
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-        }
-    </script>
 </body>
 </html>
