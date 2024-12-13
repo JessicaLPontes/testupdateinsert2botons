@@ -9,22 +9,32 @@
 </head>
 <body>
 
-    <!-- Logo e título -->
-    <img id="logo" src="https://github.com/JessicaLPontes/Convert/blob/main/logo.png?raw=true" alt="Logo">
-    <h1>Excel para SQL {Insert & Update}</h1>
+    <!-- Cabeçalho com logo e título -->
+    <header>
+        <img id="logo" src="https://github.com/JessicaLPontes/Convert/blob/main/logo.png?raw=true" alt="Logo">
+        <h1>Excel para SQL {Insert & Update}</h1>
+    </header>
 
-    <!-- Botões separados para INSERT e UPDATE -->
-    <input id="insert-input" type="file" style="display:none;" onchange="handleInsertFiles(event)" multiple accept=".xlsx, .xls">
-    <button class="file-button" onclick="document.getElementById('insert-input').click()">Carregar para INSERT</button>
+    <!-- Seção principal com botões -->
+    <main>
+        <input id="insert-input" type="file" style="display:none;" onchange="handleInsertFiles(event)" multiple accept=".xlsx, .xls">
+        <button class="file-button" onclick="document.getElementById('insert-input').click()">Carregar para INSERT</button>
 
-    <input id="update-input" type="file" style="display:none;" onchange="handleUpdateFiles(event)" multiple accept=".xlsx, .xls">
-    <button class="file-button" onclick="document.getElementById('update-input').click()">Carregar para UPDATE</button>
+        <input id="update-input" type="file" style="display:none;" onchange="handleUpdateFiles(event)" multiple accept=".xlsx, .xls">
+        <button class="file-button" onclick="document.getElementById('update-input').click()">Carregar para UPDATE</button>
 
-    <!-- Botão de limpar -->
-    <button id="clear-button" onclick="clearFiles()">Limpar Dados</button>
+        <!-- Botão para limpar dados -->
+        <button id="clear-button" onclick="clearFiles()">Limpar Dados</button>
 
-    <!-- Links para os arquivos SQL gerados -->
-    <div id="sql-links"></div>
+        <!-- Área de links -->
+        <div id="sql-links"></div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>Desenvolvido por <a href="https://github.com/JessicaLPontes" target="_blank">Jessica Pontes</a></p>
+        <p><a href="https://github.com/JessicaLPontes/Convert" target="_blank">Repositório do projeto</a></p>
+    </footer>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.4/xlsx.full.min.js"></script>
