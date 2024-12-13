@@ -19,6 +19,29 @@ body.dark-mode {
     color: #e4e4e4; /* Texto claro no modo escuro */
 }
 
+/* Botão alternar tema */
+#theme-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px;
+    font-size: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #333333; /* Ícone no modo claro */
+    transition: color 0.3s ease;
+}
+
+/* Botão alternar tema no modo escuro */
+body.dark-mode #theme-toggle {
+    color: #e4e4e4; /* Ícone no modo escuro */
+}
+
+#theme-toggle:hover {
+    transform: scale(1.1); /* Efeito de hover */
+}
+
 /* Logo */
 #logo {
     width: 150px;
@@ -41,7 +64,7 @@ body.dark-mode h1 {
 }
 
 /* Botões */
-.file-button, #clear-button, #theme-toggle {
+.file-button, #clear-button {
     padding: 15px 20px;
     font-size: 18px;
     border: outset;
@@ -54,11 +77,11 @@ body.dark-mode h1 {
     margin: 10px;
 }
 
-.file-button:hover, #clear-button:hover, #theme-toggle:hover {
+.file-button:hover, #clear-button:hover {
     background-color: #495057;
 }
 
-.file-button:active, #clear-button:active, #theme-toggle:active {
+.file-button:active, #clear-button:active {
     background-color: #343a40;
 }
 
@@ -93,22 +116,6 @@ body.dark-mode .sql-link {
 
 body.dark-mode .sql-link:hover {
     color: #1e90ff;
-}
-
-/* Animação de processamento */
-.processing {
-    animation: pulse 1s infinite alternate;
-}
-
-@keyframes pulse {
-    0% { opacity: 1; }
-    100% { opacity: 0.5; }
-}
-
-/* Erro */
-.error {
-    color: red;
-    font-weight: bold;
 }
 
 /* Rodapé */
