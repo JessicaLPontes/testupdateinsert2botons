@@ -1,57 +1,90 @@
+/* Estilo geral */
 body {
     font-family: Andale Mono, monospace;
     margin: 0;
     padding: 0;
+    background-color: white; /* Fundo branco */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
 }
-.logo-container {
+
+.header {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    margin-bottom: 20px;
+    width: 100%;
+    padding: 10px;
 }
 
 #logo {
     width: 150px;
     height: auto;
+    margin-right: 20px;
 }
 
 h1 {
     margin: 0;
-    color: #f5f5ae;
-    text-align: center;
-    margin-bottom: 20px;
+    color: #000000; /* Cor preta */
+    font-size: 30px;
 }
 
-.file-button {
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+button {
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 10px;
     padding: 15px 20px;
     font-size: 18px;
-    border: outset;
-    background-color: #6c757d;
-    color: #ffffff;
-    cursor: pointer;
-    outline: none;
-    transition: background-color 0.3s ease;
-    text-align: center;
+    color: #000000;
+    display: flex;
+    align-items: center;
     margin: 10px;
+    text-align: center;
+    transition: background-color 0.3s ease;
 }
 
-.file-button:hover {
-    background-color: #495057;
+button i {
+    margin-right: 10px; /* Espaço entre ícone e texto */
 }
 
-.file-button:active {
-    background-color: #343a40;
+button span {
+    font-size: 12px;
+    color: gray;
+}
+
+button:hover {
+    background-color: #f8f9fa;
+}
+
+button:active {
+    background-color: #e9ecef;
+}
+
+.insert-button {
+    color: blue;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.update-button {
+    color: blue;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 #clear-button {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #6e70fa; /* Blue */
+    background-color: #6e70fa; /* Cor azul */
     border: outset;
     color: #ffffff;
     cursor: pointer;
@@ -60,7 +93,28 @@ h1 {
 }
 
 #clear-button:hover {
-    background-color: #373afa; /* Clear blue on hover */
+    background-color: #373afa; /* Azul claro no hover */
+}
+
+.file-button {
+    padding: 15px 20px;
+    font-size: 18px;
+    background-color: #6c757d; /* Cor cinza */
+    color: #ffffff;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    margin: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.file-button:hover {
+    background-color: #495057;
+}
+
+.file-button:active {
+    background-color: #343a40;
 }
 
 .sql-link {
@@ -87,4 +141,42 @@ h1 {
 .error {
     color: red;
     font-weight: bold;
+}
+
+/* Link do repositório */
+.repo-links {
+    position: fixed;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.repo-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.repo-links li {
+    margin-bottom: 10px;
+}
+
+.repo-links a {
+    color: black;
+    text-decoration: none;
+}
+
+/* Rodapé */
+footer {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: gray;
+}
+
+/* Divisões de áreas */
+.division {
+    border-top: 1px solid lightgray;
+    padding: 10px;
 }
