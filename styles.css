@@ -8,6 +8,12 @@ body {
     justify-content: center;
     min-height: 100vh;
 }
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
 #logo {
     width: 150px;
