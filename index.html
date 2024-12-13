@@ -15,6 +15,9 @@
         <h1>Excel para {SQL}</h1>
     </header>
 
+    <!-- Botão para alternar entre modo claro e escuro -->
+    <button id="theme-toggle" onclick="toggleTheme()">Alternar Modo Claro/Escuro</button>
+
     <!-- Seção principal com botões -->
     <main>
         <input id="insert-input" type="file" style="display:none;" onchange="handleInsertFiles(event)" multiple accept=".xlsx, .xls">
@@ -33,11 +36,17 @@
     <!-- Rodapé -->
     <footer>
         <p>Desenvolvido por <a href="https://github.com/JessicaLPontes" target="_blank">Jessica Pontes</a></p>
-        <p><a href="https://github.com/JessicaLPontes?tab=repositories" target="_blank">Projetos Github</a></p>
+        <p><a href="https://github.com/JessicaLPontes/Convert" target="_blank">Repositório do projeto</a></p>
     </footer>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.4/xlsx.full.min.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Alternar tema claro/escuro
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+        }
+    </script>
 </body>
 </html>
