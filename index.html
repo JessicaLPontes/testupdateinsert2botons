@@ -1,46 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel para SQL</title>
-    <link rel="icon" href="https://github.com/JessicaLPontes/Convert/blob/main/logo.png?raw=true" type="image/png">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- FontAwesome -->
-</head>
-<body>
-    <!-- Botão de alternar tema -->
-    <button id="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-moon"></i>
-    </button>
+function handleInsertFiles(event) {
+    processFiles(event, 'INSERT');
+}
 
-    <!-- Container principal -->
-    <div class="main-container">
-        <!-- Logo e título -->
-        <img id="logo" src="https://github.com/JessicaLPontes/Convert/blob/main/logo.png?raw=true" alt="Logo">
-        <h1>Excel para SQL</h1>
+function handleUpdateFiles(event) {
+    processFiles(event, 'UPDATE');
+}
 
-        <!-- Botões -->
-        <input id="insert-input" type="file" style="display:none;" onchange="handleInsertFiles(event)" multiple accept=".xlsx, .xls">
-        <button class="file-button" onclick="document.getElementById('insert-input').click()">Carregar para INSERT</button>
-        <input id="update-input" type="file" style="display:none;" onchange="handleUpdateFiles(event)" multiple accept=".xlsx, .xls">
-        <button class="file-button" onclick="document.getElementById('update-input').click()">Carregar para UPDATE</button>
-        <button id="clear-button" onclick="clearFiles()">Limpar Dados</button>
+function processFiles(event, mode) {
+    const files = event.target.files;
 
-        <!-- Links para SQL -->
-        <div class="sql-links-container">
-            <div id="insert-sql-links" class="sql-links"></div>
-            <div id="update-sql-links" class="sql-links"></div>
-        </div>
-    </div>
+    if (!files || files.length === 0) {
+        alert('Por favor, selecione pelo menos um arquivo.');
+        return;
+    }
 
-    <!-- Rodapé -->
-    <footer class="footer">
-        <p>Desenvolvido por <a href="https://github.com/JessicaLPontes" target="_blank">Jessica Pontes</a></p>
-    </footer>
-    
-    <!-- Cloud -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.4/xlsx.full.min.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+    const sqlLinksContainer = document.getElementById(
+        mode === 'INSERT' ? 'insert-sql-links' : 'update-sql-links'
+    );
+    sqlLinksContainer.innerHTML = '';
+
+    const processingMsg = document.createElement('p');
+    processingMsg.innerText = `Processando arquivos para ${mode}...`;
+    processingMsg.classList.add('processing');
+    sqlLinksContainer.appendChild(processingMsg);
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+            try {
+                const data = new Uint8Array(event.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const sqlCommands = [];
+
+                workbook.SheetNames.forEach(sheetName => {
+                    const sheet = workbook.Sheets[sheetName];
+                    const tableName = sheetName.replace(/\s+/g, '_');
+                    const jsonData = XLSX.utils.sheet_to_json(sheet, { raw: false });
+
+                    if (jsonData.length === 0) {
+                        throw new Error('A planilha está vazia.');
+                    }
+
+                    if (mode === 'INSERT') {
+                        const columns = Object.keys(jsonData[0]);
+                        jsonData.forEach(row => {
+                            const values = columns.map(column => {
+                                const value = row[column]?.toString().trim();
+                                return value === undefined || value === '' ? 'NULL' : `'${value.replace(/'/g, "''")}'`;
+                            }).join(', ');
+
+                            sqlCommands.push(`INSERT INTO ${tableName} (${columns.join(', ')}) VALUES (${values});`);
+                        });
+                    } else if (mode === 'UPDATE') {
+                        jsonData.forEach(row => {
+                            // Obtém colunas presentes na linha, ignorando colunas removidas
+                            const currentColumns = Object.keys(row).filter(column => row[column] !== undefined);
+
+                            if (currentColumns.length < 2) {
+                                throw new Error(`Erro: Não há colunas suficientes para UPDATE na planilha "${sheetName}". Verifique se há pelo menos uma chave e um valor.`);
+                            }
+
+                            const setClauses = currentColumns.slice(1).map(column => {
+                                const value = row[column]?.toString().trim();
+                                const cleanedValue = value === undefined || value === '' ? 'NULL' : `'${value.replace(/'/g, "''")}'`;
+                                return `${column} = ${cleanedValue}`;
+                            }).join(', ');
+
+                            // Define a chave primária como a primeira coluna presente na planilha
+                            const keyColumn = currentColumns[0];
+                            const keyValue = row[keyColumn]?.toString().trim();
+                            if (!keyValue) {
+                                throw new Error(`Erro: A coluna-chave "${keyColumn}" está vazia para algum registro.`);
+                            }
+                            const whereClause = `${keyColumn} = '${keyValue.replace(/'/g, "''")}'`;
+
+                            sqlCommands.push(`UPDATE ${tableName} SET ${setClauses} WHERE ${whereClause};`);
+                        });
+                    }
+                });
+
+                const blob = new Blob([sqlCommands.join('\n')], { type: 'text/plain' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `${mode}_commands.sql`;
+                link.innerText = `Download ${mode}_commands.sql`;
+                link.classList.add('sql-link');
+                sqlLinksContainer.appendChild(link);
+
+                sqlLinksContainer.removeChild(processingMsg);
+            } catch (error) {
+                console.error(`Erro ao processar arquivo para ${mode}:`, error);
+                sqlLinksContainer.removeChild(processingMsg);
+                const errorMsg = document.createElement('p');
+                errorMsg.innerText = `Erro ao processar arquivo para ${mode}: ${file.name}`;
+                errorMsg.classList.add('error');
+                sqlLinksContainer.appendChild(errorMsg);
+            }
+        };
+
+        reader.readAsArrayBuffer(file);
+    }
+}
+
+function clearFiles() {
+    document.getElementById('insert-input').value = '';
+    document.getElementById('update-input').value = '';
+    document.getElementById('insert-sql-links').innerHTML = '';
+    document.getElementById('update-sql-links').innerHTML = '';
+}
+
+function toggleTheme() {
+    const body = document.body;
+    body.classList.toggle("dark-mode");
+    const icon = document.querySelector('#theme-toggle i');
+    if (body.classList.contains('dark-mode')) {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+    } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+    }
+}
