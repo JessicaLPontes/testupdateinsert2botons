@@ -43,31 +43,10 @@ function processFiles(event, mode) {
                     }
 
                     const columns = Object.keys(jsonData[0]);
-
                     const sqlCommands = jsonData.map(row => {
-                        if (mode === 'INSERT') {
-                            const values = columns.map(column => {
-                                const value = row[column]?.toString().trim();
-                                return value === undefined || value === '' ? 'NULL' : `'${value.replace(/'/g, "''")}'`;
-                            }).join(', ');
-
-                            return `INSERT INTO ${tableName} (${columns.join(', ')}) VALUES (${values});`;
-                        } else if (mode === 'UPDATE') {
-                            const setClauses = columns.map(column => {
-                                const value = row[column]?.toString().trim();
-                                const cleanedValue = value === undefined || value === '' ? 'NULL' : `'${value.replace(/'/g, "''")}'`;
-                                return `${column} = ${cleanedValue}`;
-                            }).join(', ');
-
-                            const keyColumn = columns[0];
-                            const keyValue = row[keyColumn]?.toString().trim();
-                            if (keyValue === undefined || keyValue === '') {
-                                throw new Error(`A coluna-chave "${keyColumn}" está vazia para algum registro.`);
-                            }
-                            const whereClause = `${keyColumn} = '${keyValue.replace(/'/g, "''")}'`;
-
-                            return `UPDATE ${tableName} SET ${setClauses} WHERE ${whereClause};`;
-                        }
+                        return mode === 'INSERT' 
+                            ? generateInsertSQL(tableName, columns, row) 
+                            : generateUpdateSQL(tableName, columns, row);
                     }).join('\n');
 
                     const blob = new Blob([sqlCommands], { type: 'text/plain' });
@@ -94,22 +73,34 @@ function processFiles(event, mode) {
     }
 }
 
-function clearFiles() {
-    document.getElementById('insert-input').value = '';
-    document.getElementById('update-input').value = '';
-    document.getElementById('insert-sql-links').innerHTML = '';
-    document.getElementById('update-sql-links').innerHTML = '';
+// Função para gerar comando SQL INSERT
+function generateInsertSQL(tableName, columns, row) {
+    const values = columns.map(column => formatValue(row[column])).join(', ');
+    return `INSERT INTO ${tableName} (${columns.join(', ')}) VALUES (${values});`;
 }
 
-function toggleTheme() {
-    const body = document.body;
-    body.classList.toggle("dark-mode");
-    const icon = document.querySelector('#theme-toggle i');
-    if (body.classList.contains('dark-mode')) {
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-    } else {
-        icon.classList.remove('fa-sun');
-        icon.classList.add('fa-moon');
+// Função para gerar comando SQL UPDATE com a primeira coluna como chave primária
+function generateUpdateSQL(tableName, columns, row) {
+    const keyColumn = columns[0]; // Primeira coluna do Excel como chave
+    const keyValue = row[keyColumn]?.toString().trim();
+
+    if (!keyValue) {
+        throw new Error(`A coluna-chave "${keyColumn}" está vazia para algum registro.`);
     }
+
+    const setClauses = columns.slice(1).map(column => `${column} = ${formatValue(row[column])}`).join(', ');
+    const whereClause = `${keyColumn} = ${formatValue(row[keyColumn])}`;
+
+    return `UPDATE ${tableName} SET ${setClauses} WHERE ${whereClause};`;
+}
+
+// Função para formatar valores corretamente (números sem aspas, textos com aspas)
+function formatValue(value) {
+    if (value === undefined || value === null || value.toString().trim() === '') {
+        return 'NULL';
+    }
+    if (!isNaN(value) && value !== '') {
+        return value; // Mantém números sem aspas
+    }
+    return `'${value.toString().trim().replace(/'/g, "''")}'`; // Adiciona aspas em textos
 }
