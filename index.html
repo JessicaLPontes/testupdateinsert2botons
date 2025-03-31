@@ -3,28 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel para SQL {Insert & Update}</title>
+    <title>Excel para SQL</title>
     <link rel="icon" href="https://github.com/JessicaLPontes/Convert/blob/main/logo.png?raw=true" type="image/png">
-    <link rel="stylesheet" href="styles.css"> <!-- Adiciona o arquivo CSS externo -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- FontAwesome -->
 </head>
 <body>
+    <!-- Botão de alternar tema -->
+    <button id="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </button>
 
-    <!-- Logo -->
-    <img id="logo" src="https://github.com/JessicaLPontes/Convert/blob/main/logo.png?raw=true" alt="Logo">
-    <h1>Excel para SQL {Insert & Update}</h1>
+    <!-- Container principal -->
+    <div class="main-container">
+        <!-- Logo e título -->
+        <img id="logo" src="https://github.com/JessicaLPontes/Convert/blob/main/logo.png?raw=true" alt="Logo">
+        <h1>Excel para SQL</h1>
 
-    <!-- Seção de entrada de arquivo -->
-    <div id="file-input-container">
-        <input id="file-input" type="file" onchange="handleFiles(event)" multiple accept=".xlsx, .xls">
+        <!-- Botões -->
+        <input id="insert-input" type="file" style="display:none;" onchange="handleInsertFiles(event)" multiple accept=".xlsx, .xls">
+        <button class="file-button" onclick="document.getElementById('insert-input').click()">Carregar para INSERT</button>
+        <input id="update-input" type="file" style="display:none;" onchange="handleUpdateFiles(event)" multiple accept=".xlsx, .xls">
+        <button class="file-button" onclick="document.getElementById('update-input').click()">Carregar para UPDATE</button>
         <button id="clear-button" onclick="clearFiles()">Limpar Dados</button>
+
+        <!-- Links para SQL -->
+        <div class="sql-links-container">
+            <div id="insert-sql-links" class="sql-links"></div>
+            <div id="update-sql-links" class="sql-links"></div>
+        </div>
     </div>
 
-    <!-- Links para downloads -->
-    <div id="sql-links">
-        <!-- Os links para download dos arquivos serão gerados aqui -->
-    </div>
-
-    <!-- Scripts -->
+    <!-- Rodapé -->
+    <footer class="footer">
+        <p>Desenvolvido por <a href="https://github.com/JessicaLPontes" target="_blank">Jessica Pontes</a></p>
+    </footer>
+    
+    <!-- Cloud -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.4/xlsx.full.min.js"></script>
     <script src="script.js"></script>
 </body>
