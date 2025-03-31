@@ -32,6 +32,7 @@ function processFiles(event, mode) {
             try {
                 const data = new Uint8Array(event.target.result);
                 const workbook = XLSX.read(data, { type: 'array' });
+                const sqlCommands = [];
 
                 workbook.SheetNames.forEach(sheetName => {
                     const sheet = workbook.Sheets[sheetName];
@@ -42,42 +43,51 @@ function processFiles(event, mode) {
                         throw new Error('A planilha está vazia.');
                     }
 
-                    const columns = Object.keys(jsonData[0]);
-
-                    const sqlCommands = jsonData.map(row => {
-                        if (mode === 'INSERT') {
+                    if (mode === 'INSERT') {
+                        const columns = Object.keys(jsonData[0]);
+                        jsonData.forEach(row => {
                             const values = columns.map(column => {
                                 const value = row[column]?.toString().trim();
                                 return value === undefined || value === '' ? 'NULL' : `'${value.replace(/'/g, "''")}'`;
                             }).join(', ');
 
-                            return `INSERT INTO ${tableName} (${columns.join(', ')}) VALUES (${values});`;
-                        } else if (mode === 'UPDATE') {
-                            const setClauses = columns.map(column => {
+                            sqlCommands.push(`INSERT INTO ${tableName} (${columns.join(', ')}) VALUES (${values});`);
+                        });
+                    } else if (mode === 'UPDATE') {
+                        jsonData.forEach(row => {
+                            // Obtém colunas presentes na linha, ignorando colunas removidas
+                            const currentColumns = Object.keys(row).filter(column => row[column] !== undefined);
+
+                            if (currentColumns.length < 2) {
+                                throw new Error(`Erro: Não há colunas suficientes para UPDATE na planilha "${sheetName}". Verifique se há pelo menos uma chave e um valor.`);
+                            }
+
+                            const setClauses = currentColumns.slice(1).map(column => {
                                 const value = row[column]?.toString().trim();
                                 const cleanedValue = value === undefined || value === '' ? 'NULL' : `'${value.replace(/'/g, "''")}'`;
                                 return `${column} = ${cleanedValue}`;
                             }).join(', ');
 
-                            const keyColumn = columns[0];
+                            // Define a chave primária como a primeira coluna presente na planilha
+                            const keyColumn = currentColumns[0];
                             const keyValue = row[keyColumn]?.toString().trim();
-                            if (keyValue === undefined || keyValue === '') {
-                                throw new Error(`A coluna-chave "${keyColumn}" está vazia para algum registro.`);
+                            if (!keyValue) {
+                                throw new Error(`Erro: A coluna-chave "${keyColumn}" está vazia para algum registro.`);
                             }
                             const whereClause = `${keyColumn} = '${keyValue.replace(/'/g, "''")}'`;
 
-                            return `UPDATE ${tableName} SET ${setClauses} WHERE ${whereClause};`;
-                        }
-                    }).join('\n');
-
-                    const blob = new Blob([sqlCommands], { type: 'text/plain' });
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(blob);
-                    link.download = `${tableName}_${mode}.sql`;
-                    link.innerText = `Download ${tableName}_${mode}.sql`;
-                    link.classList.add('sql-link');
-                    sqlLinksContainer.appendChild(link);
+                            sqlCommands.push(`UPDATE ${tableName} SET ${setClauses} WHERE ${whereClause};`);
+                        });
+                    }
                 });
+
+                const blob = new Blob([sqlCommands.join('\n')], { type: 'text/plain' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `${mode}_commands.sql`;
+                link.innerText = `Download ${mode}_commands.sql`;
+                link.classList.add('sql-link');
+                sqlLinksContainer.appendChild(link);
 
                 sqlLinksContainer.removeChild(processingMsg);
             } catch (error) {
