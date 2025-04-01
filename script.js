@@ -1,3 +1,44 @@
+document.addEventListener("DOMContentLoaded", function () {
+    // Seleciona os elementos
+    const body = document.body;
+    const themeToggle = document.getElementById("theme-toggle").querySelector("i");
+
+    // Aplicar o tema salvo no LocalStorage ao carregar a página
+    if (localStorage.getItem("theme") === "dark") {
+        body.classList.add("dark-mode");
+        themeToggle.classList.remove("fa-sun");
+        themeToggle.classList.add("fa-moon");
+    } else {
+        body.classList.remove("dark-mode");
+        themeToggle.classList.remove("fa-moon");
+        themeToggle.classList.add("fa-sun");
+    }
+
+    // Função para alternar entre modo escuro e claro
+    window.toggleTheme = function () {
+        body.classList.toggle("dark-mode");
+
+        if (body.classList.contains("dark-mode")) {
+            localStorage.setItem("theme", "dark");
+            themeToggle.classList.remove("fa-sun");
+            themeToggle.classList.add("fa-moon");
+        } else {
+            localStorage.setItem("theme", "light");
+            themeToggle.classList.remove("fa-moon");
+            themeToggle.classList.add("fa-sun");
+        }
+    };
+
+    // Função para limpar os arquivos carregados
+    window.clearFiles = function () {
+        document.getElementById("insert-input").value = "";
+        document.getElementById("update-input").value = "";
+        document.getElementById("insert-sql-links").innerHTML = "";
+        document.getElementById("update-sql-links").innerHTML = "";
+    };
+});
+
+// Função para processar arquivos de INSERT e UPDATE
 function handleInsertFiles(event) {
     processFiles(event, 'INSERT');
 }
@@ -73,13 +114,13 @@ function processFiles(event, mode) {
     }
 }
 
-// Função para gerar comando SQL INSERT
+// Função para gerar comando SQL INSERT com todos os valores entre aspas
 function generateInsertSQL(tableName, columns, row) {
     const values = columns.map(column => formatValue(row[column])).join(', ');
     return `INSERT INTO ${tableName} (${columns.join(', ')}) VALUES (${values});`;
 }
 
-// Função para gerar comando SQL UPDATE com a primeira coluna como chave primária
+// Função para gerar comando SQL UPDATE com todos os valores entre aspas
 function generateUpdateSQL(tableName, columns, row) {
     const keyColumn = columns[0]; // Primeira coluna do Excel como chave
     const keyValue = row[keyColumn]?.toString().trim();
@@ -94,13 +135,12 @@ function generateUpdateSQL(tableName, columns, row) {
     return `UPDATE ${tableName} SET ${setClauses} WHERE ${whereClause};`;
 }
 
-// Função para formatar valores corretamente (números sem aspas, textos com aspas)
+// Função para formatar valores corretamente (todos os valores com aspas, incluindo números)
 function formatValue(value) {
     if (value === undefined || value === null || value.toString().trim() === '') {
         return 'NULL';
     }
-    if (!isNaN(value) && value !== '') {
-        return value; // Mantém números sem aspas
-    }
-    return `'${value.toString().trim().replace(/'/g, "''")}'`; // Adiciona aspas em textos
+
+    // Aqui, até os números são convertidos para string e envolvidos por aspas
+    return `'${value.toString().trim().replace(/'/g, "''")}'`;
 }
