@@ -104,3 +104,30 @@ function formatValue(value) {
     }
     return `'${value.toString().trim().replace(/'/g, "''")}'`; // Adiciona aspas em textos
 }
+
+// 🔹 Alternar modo escuro
+function toggleTheme() {
+    document.body.classList.toggle("dark-mode");
+
+    // Salvar preferência no localStorage
+    if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("theme", "dark");
+    } else {
+        localStorage.setItem("theme", "light");
+    }
+}
+
+// 🔹 Manter tema salvo ao recarregar a página
+window.onload = function () {
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+    }
+};
+
+// 🔹 Limpar os dados carregados
+function clearFiles() {
+    document.getElementById("insert-input").value = ""; // Limpa input INSERT
+    document.getElementById("update-input").value = ""; // Limpa input UPDATE
+    document.getElementById("insert-sql-links").innerHTML = ""; // Limpa a lista INSERT
+    document.getElementById("update-sql-links").innerHTML = ""; // Limpa a lista UPDATE
+}
